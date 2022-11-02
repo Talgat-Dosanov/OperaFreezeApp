@@ -12,12 +12,17 @@ namespace OperaFreezeApp
 {
     public partial class Form1 : Form
     {
+        public string operaBinary { get; private set; }
+        public string operaDriverBinary { get; private set; }
+        AppController controller;
+
         public Form1()
         {
             InitializeComponent();
+            
             pathBtn.Click += label1_Click;
-
-           
+        
+            
 
         }
 
@@ -28,19 +33,35 @@ namespace OperaFreezeApp
 
         private void label1_Click(object sender, EventArgs e)
         {
+         
             if (openPathTab.ShowDialog() == DialogResult.Cancel)
             {
                 return;
             }
-            string fileName = openPathTab.FileName;
-            textBox1.Text = fileName;
+            operaBinary = openPathTab.FileName;
+            textBox1.Text = operaBinary;
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            var controller = new AppController("C:\\Users\\talga\\AppData\\Local\\Programs\\Opera\\68.0.3618.104_0\\opera.exe",
-              "C:\\Users\\talga\\source\\repos\\OperaWebDriver\\operadriver_win64");
-            controller.Navigate("https://www.google.com/");
+            controller = new AppController(operaBinary, operaDriverBinary);
+            controller.StartApp();
+            controller.Navigate("https://1xbit6.com/ru/line/esports");
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void operaDriverBtn_Click(object sender, EventArgs e)
+        {
+            if(folderOperaDriver.ShowDialog() == DialogResult.Cancel)
+            {
+                return;
+            }
+            operaDriverBinary = folderOperaDriver.SelectedPath;
+            operaDriverText.Text = operaDriverBinary;
         }
     }
 }

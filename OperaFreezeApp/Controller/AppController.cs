@@ -25,6 +25,10 @@ namespace OperaFreezeApp
                 BinaryLocation = operaBinary,
                 LeaveBrowserRunning = false
             };
+            
+        }
+        public void StartApp()
+        {
             driver = new OperaDriver(Service, OperaOptions);
         }
         public void Navigate(string url)
