@@ -19,11 +19,7 @@ namespace OperaFreezeApp
         public Form1()
         {
             InitializeComponent();
-            
-            pathBtn.Click += label1_Click;
         
-            
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -34,12 +30,7 @@ namespace OperaFreezeApp
         private void label1_Click(object sender, EventArgs e)
         {
          
-            if (openPathTab.ShowDialog() == DialogResult.Cancel)
-            {
-                return;
-            }
-            operaBinary = openPathTab.FileName;
-            textBox1.Text = operaBinary;
+           
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -47,6 +38,10 @@ namespace OperaFreezeApp
             controller = new AppController(operaBinary, operaDriverBinary);
             controller.StartApp();
             controller.Navigate("https://1xbit6.com/ru/line/esports");
+
+            var email = emailTextBox.Text;
+            var password = passwordTextBox.Text;
+            controller.Authorization(email, password);
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -62,6 +57,21 @@ namespace OperaFreezeApp
             }
             operaDriverBinary = folderOperaDriver.SelectedPath;
             operaDriverText.Text = operaDriverBinary;
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pathBtn_Click(object sender, EventArgs e)
+        {
+            if (openPathTab.ShowDialog() == DialogResult.Cancel)
+            {
+                return;
+            }
+            operaBinary = openPathTab.FileName;
+            textBox1.Text = operaBinary;
         }
     }
 }
