@@ -12,7 +12,7 @@ namespace OperaFreezeApp
 {
     public partial class MainMenuForm : Form
     {
-        Form1 SettingsWindow;
+        AppController Controller = new AppController();
         public MainMenuForm()
         {
             InitializeComponent();
@@ -20,8 +20,35 @@ namespace OperaFreezeApp
 
         private void settings_Click(object sender, EventArgs e)
         {
-            SettingsWindow = new Form1();
-            SettingsWindow.Show();
+            var settingsWindow = new Form1();
+            settingsWindow.Show();
+        }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            Controller.StartApp();
+            Controller.Navigate("https://1xbit6.com/ru");
+            Controller.Authorization(Controller.Settings.Email, Controller.Settings.Password);
+        }
+
+        private void freezeLoop_Click(object sender, EventArgs e)
+        {
+            Controller.PageFreeze();
+        }
+
+        private void stopFreeze_Click(object sender, EventArgs e)
+        {
+            Controller.CloseLastTab();
+        }
+
+        private void winBtn_Click(object sender, EventArgs e)
+        {
+            Controller.WinTab();
+        }
+
+        private void openNewTab_Click(object sender, EventArgs e)
+        {
+            Controller.OpenNewTab();
         }
     }
 }

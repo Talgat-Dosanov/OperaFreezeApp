@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace OperaFreezeApp.Model
 {
-    public class User
+    [Serializable]
+    public class Settings
     {
+        public string OperaPath { get; set; }
+        public string OperaDriverPath { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }

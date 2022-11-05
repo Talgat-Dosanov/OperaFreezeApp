@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OperaFreezeApp.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,28 +11,26 @@ namespace OperaFreezeApp
 {
     public class SerializableSaver
     {
-        public List<T> Load<T>()
+        public Settings Load ()
         {
             var formatter = new BinaryFormatter();
-            var filename = "settings_config";
-            using (var fs = new FileStream(filename, FileMode.OpenOrCreate))
+            using (var fs = new FileStream("settings_config.dat", FileMode.OpenOrCreate))
             {
-                if(fs.Length > 0 && formatter.Deserialize(fs) is List<T> items)
+                if(fs.Length > 0 && formatter.Deserialize(fs) is Settings item)
                 {
-                    return items;
+                    return item;
                 }
                 else
                 {
-                    return new List<T>();
+                    return  new Settings();
                 }
             }
 
         }
-        public void Save<T>(List<T> item)
+        public void Save(Settings item)
         {
             var formatter = new BinaryFormatter();
-            var filename = "settings_config";
-            using (var fs = new FileStream(filename, FileMode.OpenOrCreate))
+            using (var fs = new FileStream("settings_config.dat", FileMode.Create))
             {
                 formatter.Serialize(fs, item);
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OperaFreezeApp.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +13,16 @@ namespace OperaFreezeApp
 {
     public partial class Form1 : Form
     {
-        public string operaBinary { get; private set; }
-        public string operaDriverBinary { get; private set; }
-        AppController controller;
+        public AppController Controller;
 
         public Form1()
         {
             InitializeComponent();
-        
+            Controller = new AppController();
+            operaPathText.Text = Controller.Settings.OperaPath;
+            operaDriverText.Text = Controller.Settings.OperaDriverPath;
+            emailTextBox.Text = Controller.Settings.Email;
+            passwordTextBox.Text = Controller.Settings.Password;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -33,15 +36,25 @@ namespace OperaFreezeApp
            
         }
 
-        private void startButton_Click(object sender, EventArgs e)
-        {
-            controller = new AppController(operaBinary, operaDriverBinary);
-            controller.StartApp();
-            controller.Navigate("https://1xbit6.com/ru/line/esports");
 
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            var operaBinary = operaPathText.Text;
+            var operaDriverBinary = operaDriverText.Text;
             var email = emailTextBox.Text;
             var password = passwordTextBox.Text;
-            controller.Authorization(email, password);
+
+           
+
+            Controller = new AppController();
+           
+
+            Controller.Settings.OperaPath = operaBinary;
+            Controller.Settings.OperaDriverPath = operaDriverBinary;
+            Controller.Settings.Email = email;
+            Controller.Settings.Password = password;
+            Controller.Save(Controller.Settings);
+            this.Close();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -55,8 +68,8 @@ namespace OperaFreezeApp
             {
                 return;
             }
-            operaDriverBinary = folderOperaDriver.SelectedPath;
-            operaDriverText.Text = operaDriverBinary;
+            operaDriverText.Text = folderOperaDriver.SelectedPath;
+
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -70,8 +83,7 @@ namespace OperaFreezeApp
             {
                 return;
             }
-            operaBinary = openPathTab.FileName;
-            textBox1.Text = operaBinary;
+            operaPathText.Text = openPathTab.FileName;
         }
     }
 }

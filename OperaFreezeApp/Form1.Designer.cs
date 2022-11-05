@@ -31,9 +31,9 @@ namespace OperaFreezeApp
         {
             this.label1 = new System.Windows.Forms.Label();
             this.openPathTab = new System.Windows.Forms.OpenFileDialog();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.operaPathText = new System.Windows.Forms.TextBox();
             this.pathBtn = new System.Windows.Forms.Button();
-            this.startButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.operaDriverText = new System.Windows.Forms.TextBox();
             this.operaDriverBtn = new System.Windows.Forms.Button();
@@ -60,12 +60,12 @@ namespace OperaFreezeApp
             // 
             this.openPathTab.FileName = "openFileDialog1";
             // 
-            // textBox1
+            // operaPathText
             // 
-            this.textBox1.Location = new System.Drawing.Point(26, 79);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 23);
-            this.textBox1.TabIndex = 1;
+            this.operaPathText.Location = new System.Drawing.Point(26, 79);
+            this.operaPathText.Name = "operaPathText";
+            this.operaPathText.Size = new System.Drawing.Size(152, 23);
+            this.operaPathText.TabIndex = 1;
             // 
             // pathBtn
             // 
@@ -77,15 +77,15 @@ namespace OperaFreezeApp
             this.pathBtn.UseVisualStyleBackColor = true;
             this.pathBtn.Click += new System.EventHandler(this.pathBtn_Click);
             // 
-            // startButton
+            // saveButton
             // 
-            this.startButton.Location = new System.Drawing.Point(239, 269);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
-            this.startButton.TabIndex = 3;
-            this.startButton.Text = "Запустить";
-            this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            this.saveButton.Location = new System.Drawing.Point(223, 274);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 3;
+            this.saveButton.Text = "Сохранить";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // label2
             // 
@@ -164,9 +164,9 @@ namespace OperaFreezeApp
             this.Controls.Add(this.operaDriverBtn);
             this.Controls.Add(this.operaDriverText);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.startButton);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.pathBtn);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.operaPathText);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Настройки ";
@@ -180,9 +180,9 @@ namespace OperaFreezeApp
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.OpenFileDialog openPathTab;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox operaPathText;
         private System.Windows.Forms.Button pathBtn;
-        private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox operaDriverText;
         private System.Windows.Forms.Button operaDriverBtn;
