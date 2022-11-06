@@ -27,7 +27,6 @@ namespace OperaFreezeApp
         private void startButton_Click(object sender, EventArgs e)
         {
             Controller.StartApp();
-            Controller.Navigate("https://1xbit6.com/ru");
             Controller.Authorization(Controller.Settings.Email, Controller.Settings.Password);
         }
 
