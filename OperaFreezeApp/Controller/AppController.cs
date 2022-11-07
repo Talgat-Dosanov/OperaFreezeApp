@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -44,7 +45,34 @@ namespace OperaFreezeApp
             ((IJavaScriptExecutor)driver).ExecuteScript("window.open();");
             driver.SwitchTo().Window(driver.WindowHandles.Last());
             driver.Navigate().GoToUrl("https://1xbit6.com/ru");
+
+        }
+
+        public void Test()
+        {
+            StartApp();
+            Authorization(Settings.Email, Settings.Password);
+            driver.Navigate().GoToUrl("https://1xbit6.com/line/basketball/13589-nba/151060485-home-points-away-points");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".c-dropdown.coupon__dropdown.coupon__dropdown--full.u-8pt-ph-0.c-dropdown--classic"))).Click();
+            var toggleElement = driver.FindElement(By.CssSelector(".coupon-btn-group__item.save-coupon__input-wrap"));
+            var inputEventId = toggleElement.FindElement(By.TagName("input"));
+            inputEventId.SendKeys("QP4DR");
+
+            var eventBtns = driver.FindElements(By.CssSelector(".c-btn.c-btn--block.c-btn--theme-brand"));
+            wait.Until(ExpectedConditions.ElementToBeClickable(eventBtns[1])).Click();
+            OpenNewTab();
+            var driverPagesCount = driver.WindowHandles.Count();
+            for(var i = 0; i < 5; i++)
+            {
+                while(driverPagesCount > 2)
+                {
+                    PageFreeze();
+                    CloseLastTab();
+                }
+                OpenNewTab();
+            }
             
+
         }
         public void Navigate(string url)
         {
@@ -92,6 +120,7 @@ namespace OperaFreezeApp
         {
             try
             {
+                var name = "logs.txt";
                 IWebElement root1 = driver.FindElement(By.TagName("discards-main"));
                 IWebElement shadowRoot1 = expandRootElement(root1);
 
@@ -105,7 +134,18 @@ namespace OperaFreezeApp
                 var status = AllTab[AllTab.Count() - 2].FindElements(By.TagName("td"))[7];
                 if(status.Text != "frozen")
                 {
+                    using (StreamWriter writer = new StreamWriter(name, true))
+                    {
+                        writer.WriteLine($"{DateTime.Now.ToString("H:mm:ss")} - not frozen");
+                    }
                     wait.Until(ExpectedConditions.ElementToBeClickable(btn)).Click();
+                } 
+                else
+                {
+                    using (StreamWriter writer = new StreamWriter(name, true))
+                    {
+                        writer.WriteLine($"{DateTime.Now.ToString("H:mm:ss")} - frozen");
+                    }
                 }
             } catch (ElementClickInterceptedException)
             {
@@ -129,9 +169,9 @@ namespace OperaFreezeApp
         }
         public void CloseLastTab()
         {
-            driver.SwitchTo().Window(currentTab);
+            driver.SwitchTo().Window(driver.WindowHandles[1]);
             driver.Close();
-            driver.SwitchTo().Window(driver.WindowHandles.Last());
+            driver.SwitchTo().Window(driver.WindowHandles[1]);
         }
         public void WinTab()
         {

@@ -36,6 +36,7 @@ namespace OperaFreezeApp
             this.closeTab = new System.Windows.Forms.Button();
             this.winBtn = new System.Windows.Forms.Button();
             this.openNewTab = new System.Windows.Forms.Button();
+            this.testBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // settings
@@ -102,11 +103,22 @@ namespace OperaFreezeApp
             this.openNewTab.UseVisualStyleBackColor = true;
             this.openNewTab.Click += new System.EventHandler(this.openNewTab_Click);
             // 
+            // testBtn
+            // 
+            this.testBtn.Location = new System.Drawing.Point(343, 67);
+            this.testBtn.Name = "testBtn";
+            this.testBtn.Size = new System.Drawing.Size(75, 23);
+            this.testBtn.TabIndex = 6;
+            this.testBtn.Text = "Тест";
+            this.testBtn.UseVisualStyleBackColor = true;
+            this.testBtn.Click += new System.EventHandler(this.testBtn_Click);
+            // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(471, 249);
+            this.Controls.Add(this.testBtn);
             this.Controls.Add(this.openNewTab);
             this.Controls.Add(this.winBtn);
             this.Controls.Add(this.closeTab);
@@ -127,5 +139,6 @@ namespace OperaFreezeApp
         private System.Windows.Forms.Button closeTab;
         private System.Windows.Forms.Button winBtn;
         private System.Windows.Forms.Button openNewTab;
+        private System.Windows.Forms.Button testBtn;
     }
 }
