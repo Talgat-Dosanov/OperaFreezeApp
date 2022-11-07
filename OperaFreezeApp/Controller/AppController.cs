@@ -106,21 +106,34 @@ namespace OperaFreezeApp
             currentTabUrl = driver.Url;
             currentTab = driver.CurrentWindowHandle;
 
+                try
+                {
+                    var btnItems = driver.FindElement(By.ClassName("cpn-btns-group__item"));
+                    var bet = btnItems.FindElement(By.TagName("button"));
+                    bet.Click();
+                    Thread.Sleep(1500);
+                    driver.SwitchTo().Window(driver.WindowHandles.First());
+                    var freezeBtn = ParseFreezeBtn();
+                    freezeBtn.Click();
+                    CheckFreeze(freezeBtn);
+                    
+
+                }
+                catch (NoSuchElementException)
+                {
+
+                }
+            
+           
+        }
       
 
-                var btnItems = driver.FindElement(By.ClassName("cpn-btns-group__item"));
-                var bet = btnItems.FindElement(By.TagName("button"));
-                bet.Click();
-                driver.SwitchTo().Window(driver.WindowHandles.First());
-                var freezeBtn = ParseFreezeBtn();
-                freezeBtn.Click();
-                CheckFreeze(freezeBtn);
-        }
+                
         public void CheckFreeze(IWebElement btn)
         {
             try
             {
-                var name = "logs.txt";
+               
                 IWebElement root1 = driver.FindElement(By.TagName("discards-main"));
                 IWebElement shadowRoot1 = expandRootElement(root1);
 
@@ -132,26 +145,20 @@ namespace OperaFreezeApp
                 var table = shadowRoot2.FindElement(By.Id("tab-discards-info-table-body"));
                 var AllTab = table.FindElements(By.TagName("tr"));
                 var status = AllTab[AllTab.Count() - 2].FindElements(By.TagName("td"))[7];
-                if(status.Text != "frozen")
+                while(status.Text != "frozen")
                 {
-                    using (StreamWriter writer = new StreamWriter(name, true))
-                    {
-                        writer.WriteLine($"{DateTime.Now.ToString("H:mm:ss")} - not frozen");
-                    }
                     wait.Until(ExpectedConditions.ElementToBeClickable(btn)).Click();
-                } 
-                else
+                }
+                var name = "logs.txt";
+                using (StreamWriter writer = new StreamWriter(name, true))
                 {
-                    using (StreamWriter writer = new StreamWriter(name, true))
-                    {
-                        writer.WriteLine($"{DateTime.Now.ToString("H:mm:ss")} - frozen");
-                    }
+                    writer.WriteLine($"{DateTime.Now.ToString("H:mm:ss")} - {status.Text}");
                 }
             } catch (ElementClickInterceptedException)
             {
                 
             }
-            
+           
         }
         public void OpenNewTab()
         {
@@ -169,9 +176,17 @@ namespace OperaFreezeApp
         }
         public void CloseLastTab()
         {
-            driver.SwitchTo().Window(driver.WindowHandles[1]);
-            driver.Close();
-            driver.SwitchTo().Window(driver.WindowHandles[1]);
+            try
+            {
+                driver.SwitchTo().Window(driver.WindowHandles[1]);
+                driver.Close();
+                driver.SwitchTo().Window(driver.WindowHandles[1]);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
+            }   
+            
         }
         public void WinTab()
         {

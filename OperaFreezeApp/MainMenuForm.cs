@@ -32,7 +32,17 @@ namespace OperaFreezeApp
 
         private void freezeLoop_Click(object sender, EventArgs e)
         {
-            Controller.PageFreeze();
+            try
+            {
+                for()
+                Controller.PageFreeze();
+            }
+            catch( Exception)
+            {
+                MessageBox.Show("Сделайте ставку!");
+            }
+           
+            
         }
 
         private void stopFreeze_Click(object sender, EventArgs e)
