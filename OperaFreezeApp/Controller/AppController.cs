@@ -16,13 +16,12 @@ namespace OperaFreezeApp
     {
         OperaDriverService Service { get; set; }
         OperaOptions OperaOptions { get; set; }
-        IWebDriver driver { get; set; }
+        public IWebDriver driver { get; set; }
         public Settings Settings { get; set; }
         public SerializableSaver data { get; set; } = new SerializableSaver();
 
         public string currentTabUrl { get; set; }
         public string currentTab { get; set; }
-        public int Index { get; set; } = 1;
 
         WebDriverWait wait;
         public AppController()
@@ -57,32 +56,19 @@ namespace OperaFreezeApp
            
 
         }
-
-        public void Test()
+ 
+        public int SetIndex()
         {
-            StartApp();
-            Authorization(Settings.Email, Settings.Password);
-            driver.Navigate().GoToUrl("https://1xbit6.com/line/basketball/13589-nba/151060485-home-points-away-points");
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".c-dropdown.coupon__dropdown.coupon__dropdown--full.u-8pt-ph-0.c-dropdown--classic"))).Click();
-            var toggleElement = driver.FindElement(By.CssSelector(".coupon-btn-group__item.save-coupon__input-wrap"));
-            var inputEventId = toggleElement.FindElement(By.TagName("input"));
-            inputEventId.SendKeys("QP4DR");
-
-            var eventBtns = driver.FindElements(By.CssSelector(".c-btn.c-btn--block.c-btn--theme-brand"));
-            wait.Until(ExpectedConditions.ElementToBeClickable(eventBtns[1])).Click();
-            OpenNewTab();
-            var driverPagesCount = driver.WindowHandles.Count();
-            for(var i = 0; i < 5; i++)
+            var index = driver.WindowHandles.IndexOf(driver.CurrentWindowHandle);
+            if (driver.WindowHandles.IndexOf(driver.CurrentWindowHandle) < driver.WindowHandles.Count() - 1)
             {
-                while(driverPagesCount > 2)
-                {
-                    PageFreeze();
-                    CloseLastTab();
-                }
-                OpenNewTab();
+                 index += 1;
             }
-            
-
+            else
+            {
+                index = 1;
+            }
+            return index;
         }
         public void Navigate(string url)
         {
@@ -113,10 +99,11 @@ namespace OperaFreezeApp
             
         }
      
-        public void PageFreeze()
+        public void PageFreeze(int Index)
         {
             currentTabUrl = driver.Url;
             currentTab = driver.CurrentWindowHandle;
+
 
             try
             {
@@ -131,23 +118,15 @@ namespace OperaFreezeApp
                 driver.SwitchTo().Window(driver.WindowHandles.First());
                 var freezeBtn = ParseFreezeBtn(Index);
                 freezeBtn.Click();
-                if (CheckStatus(freezeBtn, Index) != "forzen")
+                while (CheckStatus(freezeBtn, Index) != "forzen")
                 {
                     freezeBtn.Click();
                 }  
                 
             }
-            catch (NoSuchElementException)
+            catch (ElementClickInterceptedException)
             {
 
-            }
-            if (Index < driver.WindowHandles.Count() - 1)
-            {
-                Index += 1;
-            }
-            else if (Index == driver.WindowHandles.Count() - 1)
-            {
-                Index = 1;
             }
 
         }
@@ -211,10 +190,9 @@ namespace OperaFreezeApp
             }   
             
         }
-        public void WinTab()
+        public void WinTab(int Index)
         {
             driver.SwitchTo().Window(driver.WindowHandles[Index]);
-            Index = driver.WindowHandles.IndexOf(driver.CurrentWindowHandle);
         }
 
         public Settings GetSettings()

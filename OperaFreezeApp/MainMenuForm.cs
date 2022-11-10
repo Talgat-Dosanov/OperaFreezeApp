@@ -12,6 +12,7 @@ namespace OperaFreezeApp
 {
     public partial class MainMenuForm : Form
     {
+        int Index { get; set; } = 1;
         AppController Controller;
         public MainMenuForm()
         {
@@ -31,18 +32,12 @@ namespace OperaFreezeApp
             Controller.Authorization(Controller.Settings.Email, Controller.Settings.Password);
         }
 
+       
         private void freezeLoop_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Controller.PageFreeze();
-            }
-            catch( Exception)
-            {
-                MessageBox.Show("Сделайте ставку!");
-            }
-           
-            
+
+            Controller.PageFreeze(Index);
+            Index = Controller.SetIndex();
         }
 
         private void stopFreeze_Click(object sender, EventArgs e)
@@ -52,7 +47,8 @@ namespace OperaFreezeApp
 
         private void winBtn_Click(object sender, EventArgs e)
         {
-            Controller.WinTab();
+            Controller.WinTab(Index);
+            Index = Controller.driver.WindowHandles.IndexOf(Controller.driver.CurrentWindowHandle);
         }
 
         private void openNewTab_Click(object sender, EventArgs e)
@@ -62,7 +58,7 @@ namespace OperaFreezeApp
 
         private void testBtn_Click(object sender, EventArgs e)
         {
-            Controller.Test();
+       
         }
     }
 }
