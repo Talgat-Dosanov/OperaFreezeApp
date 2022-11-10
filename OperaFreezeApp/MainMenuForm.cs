@@ -12,7 +12,7 @@ namespace OperaFreezeApp
 {
     public partial class MainMenuForm : Form
     {
-        AppController Controller = new AppController();
+        AppController Controller;
         public MainMenuForm()
         {
             InitializeComponent();
@@ -26,6 +26,7 @@ namespace OperaFreezeApp
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            Controller = new AppController();
             Controller.StartApp();
             Controller.Authorization(Controller.Settings.Email, Controller.Settings.Password);
         }
@@ -34,7 +35,6 @@ namespace OperaFreezeApp
         {
             try
             {
-                for()
                 Controller.PageFreeze();
             }
             catch( Exception)

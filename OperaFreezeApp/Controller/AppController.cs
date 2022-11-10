@@ -20,8 +20,10 @@ namespace OperaFreezeApp
         public Settings Settings { get; set; }
         public SerializableSaver data { get; set; } = new SerializableSaver();
 
-        string currentTabUrl { get; set; }
-        string currentTab { get; set; }
+        public string currentTabUrl { get; set; }
+        public string currentTab { get; set; }
+        public int Index { get; set; } = 1;
+
         WebDriverWait wait;
         public AppController()
         {
@@ -29,22 +31,30 @@ namespace OperaFreezeApp
         }
         public void StartApp()
         {
-            Settings = GetSettings();
-            Service = OperaDriverService.CreateDefaultService(Settings.OperaDriverPath, "operadriver.exe");
-            OperaOptions = new OperaOptions
+            try
             {
-                BinaryLocation = Settings.OperaPath,
-                LeaveBrowserRunning = false,
-                PageLoadStrategy = PageLoadStrategy.None
-            };
-            driver = new OperaDriver(Service, OperaOptions);
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-            driver.Navigate().GoToUrl("chrome://discards");
-            wait.Until(driver1 => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
-            
-            ((IJavaScriptExecutor)driver).ExecuteScript("window.open();");
-            driver.SwitchTo().Window(driver.WindowHandles.Last());
-            driver.Navigate().GoToUrl("https://1xbit6.com/ru");
+                Settings = GetSettings();
+                Service = OperaDriverService.CreateDefaultService(Settings.OperaDriverPath, "operadriver.exe");
+                OperaOptions = new OperaOptions
+                {
+                    BinaryLocation = Settings.OperaPath,
+                    LeaveBrowserRunning = false,
+                    PageLoadStrategy = PageLoadStrategy.Eager
+                };
+                driver = new OperaDriver(Service, OperaOptions);
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+                driver.Navigate().GoToUrl("chrome://discards");
+                wait.Until(driver1 => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
+
+                ((IJavaScriptExecutor)driver).ExecuteScript("window.open();");
+                driver.SwitchTo().Window(driver.WindowHandles.Last());
+                driver.Navigate().GoToUrl("https://1xbit6.com/ru");
+            }
+            catch (Exception)
+            {
+
+            }
+           
 
         }
 
@@ -99,79 +109,92 @@ namespace OperaFreezeApp
             {
                 submitBtn.Click();
             }
+    
             
         }
+     
         public void PageFreeze()
         {
             currentTabUrl = driver.Url;
             currentTab = driver.CurrentWindowHandle;
 
-                try
+            try
+            {
+                if(driver.CurrentWindowHandle != driver.WindowHandles[Index])
                 {
-                    var btnItems = driver.FindElement(By.ClassName("cpn-btns-group__item"));
-                    var bet = btnItems.FindElement(By.TagName("button"));
-                    bet.Click();
-                    Thread.Sleep(1500);
-                    driver.SwitchTo().Window(driver.WindowHandles.First());
-                    var freezeBtn = ParseFreezeBtn();
+                    driver.SwitchTo().Window(driver.WindowHandles[Index]);
+                }
+                var btnItems = driver.FindElement(By.ClassName("cpn-btns-group__item"));
+                var bet = btnItems.FindElement(By.TagName("button"));
+                bet.Click();
+                Thread.Sleep(1000);
+                driver.SwitchTo().Window(driver.WindowHandles.First());
+                var freezeBtn = ParseFreezeBtn(Index);
+                freezeBtn.Click();
+                if (CheckStatus(freezeBtn, Index) != "forzen")
+                {
                     freezeBtn.Click();
-                    CheckFreeze(freezeBtn);
-                    
+                }  
+                
+            }
+            catch (NoSuchElementException)
+            {
 
-                }
-                catch (NoSuchElementException)
-                {
+            }
+            if (Index < driver.WindowHandles.Count() - 1)
+            {
+                Index += 1;
+            }
+            else if (Index == driver.WindowHandles.Count() - 1)
+            {
+                Index = 1;
+            }
 
-                }
-            
-           
         }
       
 
                 
-        public void CheckFreeze(IWebElement btn)
+        public string CheckStatus(IWebElement btn, int numPage)
         {
-            try
-            {
-               
-                IWebElement root1 = driver.FindElement(By.TagName("discards-main"));
-                IWebElement shadowRoot1 = expandRootElement(root1);
+            
+            IWebElement root1 = driver.FindElement(By.TagName("discards-main"));
+            IWebElement shadowRoot1 = expandRootElement(root1);
 
-                IWebElement root2 = shadowRoot1.FindElement(By.CssSelector("iron-pages"));
-                IWebElement root3 = root2.FindElement(By.CssSelector("discards-tab"));
+            IWebElement root2 = shadowRoot1.FindElement(By.CssSelector("iron-pages"));
+            IWebElement root3 = root2.FindElement(By.CssSelector("discards-tab"));
 
-                IWebElement shadowRoot2 = expandRootElement(root3);
+            IWebElement shadowRoot2 = expandRootElement(root3);
 
-                var table = shadowRoot2.FindElement(By.Id("tab-discards-info-table-body"));
-                var AllTab = table.FindElements(By.TagName("tr"));
-                var status = AllTab[AllTab.Count() - 2].FindElements(By.TagName("td"))[7];
-                while(status.Text != "frozen")
-                {
-                    wait.Until(ExpectedConditions.ElementToBeClickable(btn)).Click();
-                }
-                var name = "logs.txt";
-                using (StreamWriter writer = new StreamWriter(name, true))
-                {
-                    writer.WriteLine($"{DateTime.Now.ToString("H:mm:ss")} - {status.Text}");
-                }
-            } catch (ElementClickInterceptedException)
-            {
-                
-            }
+            var table = shadowRoot2.FindElement(By.Id("tab-discards-info-table-body"));
+            var AllTab = table.FindElements(By.TagName("tr"));
+            var status = AllTab[AllTab.Count() - (1+numPage)].FindElements(By.TagName("td"))[7];
+        
+            //var name = "logs.txt";
+            //using (StreamWriter writer = new StreamWriter(name, true))
+            //{
+            //    writer.WriteLine($"{DateTime.Now.ToString("H:mm:ss")} - {status.Text}");
+            //}
+
+            return status.Text;
+          
            
         }
         public void OpenNewTab()
         {
-            currentTabUrl = driver.Url;
-            for (var i = 0; i < 3; i++)
+            try
             {
+                currentTabUrl = driver.Url;
                 ((IJavaScriptExecutor)driver).ExecuteScript("window.open();");
                 driver.SwitchTo().Window(driver.WindowHandles.Last());
                 driver.Navigate().GoToUrl(currentTabUrl);
-                
-            }
 
-            driver.SwitchTo().Window(driver.WindowHandles[1]);
+
+                driver.SwitchTo().Window(driver.WindowHandles[1]);
+            }
+            catch (Exception )
+            {
+
+            }
           
         }
         public void CloseLastTab()
@@ -190,7 +213,8 @@ namespace OperaFreezeApp
         }
         public void WinTab()
         {
-            driver.SwitchTo().Window(currentTab);
+            driver.SwitchTo().Window(driver.WindowHandles[Index]);
+            Index = driver.WindowHandles.IndexOf(driver.CurrentWindowHandle);
         }
 
         public Settings GetSettings()
@@ -228,7 +252,7 @@ namespace OperaFreezeApp
             return elem1;
         }
 
-        public IWebElement ParseFreezeBtn()
+        public IWebElement ParseFreezeBtn(int numPage)
         {
             
             IWebElement root1 = driver.FindElement(By.TagName("discards-main"));
@@ -241,7 +265,7 @@ namespace OperaFreezeApp
 
             var table = shadowRoot2.FindElement(By.Id("tab-discards-info-table-body"));
             var AllTab = table.FindElements(By.TagName("tr"));
-            var activeTab = AllTab[AllTab.Count() - 2];
+            var activeTab = AllTab[AllTab.Count() - (1 + numPage)];
             var tabBtns = activeTab.FindElement(By.ClassName("actions-cell"));
             var freezeBtn = tabBtns.FindElements(By.CssSelector("div"));
 
