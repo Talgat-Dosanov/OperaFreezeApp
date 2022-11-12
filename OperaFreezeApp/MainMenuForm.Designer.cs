@@ -29,14 +29,16 @@ namespace OperaFreezeApp
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuForm));
             this.settings = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
             this.freezeLoop = new System.Windows.Forms.Button();
-            this.closeTab = new System.Windows.Forms.Button();
             this.winBtn = new System.Windows.Forms.Button();
-            this.openNewTab = new System.Windows.Forms.Button();
-            this.testBtn = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer_label = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.stop_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // settings
@@ -55,7 +57,7 @@ namespace OperaFreezeApp
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(206, 68);
+            this.startButton.Location = new System.Drawing.Point(206, 23);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(75, 23);
             this.startButton.TabIndex = 1;
@@ -65,7 +67,7 @@ namespace OperaFreezeApp
             // 
             // freezeLoop
             // 
-            this.freezeLoop.Location = new System.Drawing.Point(56, 130);
+            this.freezeLoop.Location = new System.Drawing.Point(125, 130);
             this.freezeLoop.Name = "freezeLoop";
             this.freezeLoop.Size = new System.Drawing.Size(107, 23);
             this.freezeLoop.TabIndex = 2;
@@ -73,19 +75,9 @@ namespace OperaFreezeApp
             this.freezeLoop.UseVisualStyleBackColor = true;
             this.freezeLoop.Click += new System.EventHandler(this.freezeLoop_Click);
             // 
-            // closeTab
-            // 
-            this.closeTab.Location = new System.Drawing.Point(324, 130);
-            this.closeTab.Name = "closeTab";
-            this.closeTab.Size = new System.Drawing.Size(123, 23);
-            this.closeTab.TabIndex = 3;
-            this.closeTab.Text = "Закрыть вкладку";
-            this.closeTab.UseVisualStyleBackColor = true;
-            this.closeTab.Click += new System.EventHandler(this.stopFreeze_Click);
-            // 
             // winBtn
             // 
-            this.winBtn.Location = new System.Drawing.Point(197, 130);
+            this.winBtn.Location = new System.Drawing.Point(264, 130);
             this.winBtn.Name = "winBtn";
             this.winBtn.Size = new System.Drawing.Size(95, 23);
             this.winBtn.TabIndex = 4;
@@ -93,41 +85,44 @@ namespace OperaFreezeApp
             this.winBtn.UseVisualStyleBackColor = true;
             this.winBtn.Click += new System.EventHandler(this.winBtn_Click);
             // 
-            // openNewTab
+            // timer1
             // 
-            this.openNewTab.Location = new System.Drawing.Point(152, 188);
-            this.openNewTab.Name = "openNewTab";
-            this.openNewTab.Size = new System.Drawing.Size(177, 23);
-            this.openNewTab.TabIndex = 5;
-            this.openNewTab.Text = "Открыть новую вкладку";
-            this.openNewTab.UseVisualStyleBackColor = true;
-            this.openNewTab.Click += new System.EventHandler(this.openNewTab_Click);
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // testBtn
+            // timer_label
             // 
-            this.testBtn.Location = new System.Drawing.Point(343, 67);
-            this.testBtn.Name = "testBtn";
-            this.testBtn.Size = new System.Drawing.Size(75, 23);
-            this.testBtn.TabIndex = 6;
-            this.testBtn.Text = "Тест";
-            this.testBtn.UseVisualStyleBackColor = true;
-            this.testBtn.Click += new System.EventHandler(this.testBtn_Click);
+            this.timer_label.AutoSize = true;
+            this.timer_label.Location = new System.Drawing.Point(167, 96);
+            this.timer_label.Name = "timer_label";
+            this.timer_label.Size = new System.Drawing.Size(13, 15);
+            this.timer_label.TabIndex = 6;
+            this.timer_label.Text = "0";
+            // 
+            // stop_button
+            // 
+            this.stop_button.Location = new System.Drawing.Point(206, 184);
+            this.stop_button.Name = "stop_button";
+            this.stop_button.Size = new System.Drawing.Size(75, 23);
+            this.stop_button.TabIndex = 7;
+            this.stop_button.Text = "Стоп";
+            this.stop_button.UseVisualStyleBackColor = true;
+            this.stop_button.Click += new System.EventHandler(this.stop_button_Click);
             // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(471, 249);
-            this.Controls.Add(this.testBtn);
-            this.Controls.Add(this.openNewTab);
+            this.Controls.Add(this.stop_button);
+            this.Controls.Add(this.timer_label);
             this.Controls.Add(this.winBtn);
-            this.Controls.Add(this.closeTab);
             this.Controls.Add(this.freezeLoop);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.settings);
             this.Name = "MainMenuForm";
             this.Text = "OperaWebFreezer";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -136,9 +131,10 @@ namespace OperaFreezeApp
         private System.Windows.Forms.Button settings;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button freezeLoop;
-        private System.Windows.Forms.Button closeTab;
         private System.Windows.Forms.Button winBtn;
-        private System.Windows.Forms.Button openNewTab;
-        private System.Windows.Forms.Button testBtn;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label timer_label;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Button stop_button;
     }
 }

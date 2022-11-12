@@ -32,17 +32,32 @@ namespace OperaFreezeApp
         {
             try
             {
+                //var proxy = new Proxy();
+                //proxy.Kind = ProxyKind.Manual;
+                //proxy.IsAutoDetect = false;
+                //proxy.SslProxy = "localhost:port";
+                //proxy.SocksUserName = "login";
+                //proxy.SocksPassword = "password";
+
+
                 Settings = GetSettings();
                 Service = OperaDriverService.CreateDefaultService(Settings.OperaDriverPath, "operadriver.exe");
                 OperaOptions = new OperaOptions
                 {
                     BinaryLocation = Settings.OperaPath,
                     LeaveBrowserRunning = false,
-                    PageLoadStrategy = PageLoadStrategy.Eager
+                    PageLoadStrategy = PageLoadStrategy.Eager,
+                    //Proxy = proxy,
                 };
+                //OperaOptions.AddArgument("ignore-certificate-errors");
+
+  
+
                 driver = new OperaDriver(Service, OperaOptions);
                 wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+                driver.Manage().Window.Maximize();
                 driver.Navigate().GoToUrl("chrome://discards");
+               
                 wait.Until(driver1 => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
 
                 ((IJavaScriptExecutor)driver).ExecuteScript("window.open();");
@@ -75,6 +90,18 @@ namespace OperaFreezeApp
             driver.Navigate().GoToUrl(url);
         }
 
+        public void ClickOkBtn()
+        {
+            try
+            {
+                wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".swal2-confirm.swal2-styled"))).Click();
+            }
+            catch( Exception )
+            {
+
+            }
+           
+        }
         public void Authorization (string email, string password)
         {
             // open authorization form
@@ -104,7 +131,6 @@ namespace OperaFreezeApp
             currentTabUrl = driver.Url;
             currentTab = driver.CurrentWindowHandle;
 
-
             try
             {
                 if(driver.CurrentWindowHandle != driver.WindowHandles[Index])
@@ -121,14 +147,17 @@ namespace OperaFreezeApp
                 while (CheckStatus(freezeBtn, Index) != "forzen")
                 {
                     freezeBtn.Click();
-                }  
+                }
                 
             }
             catch (ElementClickInterceptedException)
             {
-
+                
             }
-
+            catch (NoSuchElementException) 
+            {
+               
+            }
         }
       
 
@@ -167,8 +196,6 @@ namespace OperaFreezeApp
                 driver.SwitchTo().Window(driver.WindowHandles.Last());
                 driver.Navigate().GoToUrl(currentTabUrl);
 
-
-                driver.SwitchTo().Window(driver.WindowHandles[1]);
             }
             catch (Exception )
             {
