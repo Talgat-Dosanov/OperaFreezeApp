@@ -32,12 +32,8 @@ namespace OperaFreezeApp
         {
             try
             {
-                //var proxy = new Proxy();
-                //proxy.Kind = ProxyKind.Manual;
-                //proxy.IsAutoDetect = false;
-                //proxy.SslProxy = "localhost:port";
-                //proxy.SocksUserName = "login";
-                //proxy.SocksPassword = "password";
+               
+               
 
 
                 Settings = GetSettings();
@@ -47,11 +43,20 @@ namespace OperaFreezeApp
                     BinaryLocation = Settings.OperaPath,
                     LeaveBrowserRunning = false,
                     PageLoadStrategy = PageLoadStrategy.Eager,
-                    //Proxy = proxy,
                 };
-                //OperaOptions.AddArgument("ignore-certificate-errors");
+                if (Settings.Proxy == true)
+                {
+                    var proxy = new Proxy();
+                    proxy.Kind = ProxyKind.Manual;
+                    proxy.IsAutoDetect = false;
+                    proxy.SslProxy = $"{Settings.ProxyServer}:{Settings.ProxyPort}";
+                    //proxy.SocksUserName = "login";
+                    //proxy.SocksPassword = "password";
+                    OperaOptions.Proxy = proxy;
+                    OperaOptions.AddArgument("ignore-certificate-errors");
+                }
 
-  
+
 
                 driver = new OperaDriver(Service, OperaOptions);
                 wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));

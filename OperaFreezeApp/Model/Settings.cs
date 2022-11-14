@@ -13,5 +13,8 @@ namespace OperaFreezeApp.Model
         public string OperaDriverPath { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public bool Proxy { get; set; } = false;
+        public string ProxyServer { get; set; }
+        public string ProxyPort { get; set; } 
     }
 }

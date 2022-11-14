@@ -107,12 +107,12 @@ namespace OperaFreezeApp
 
         private void openNewTab_Click(object sender, EventArgs e)
         {
-            
+            ///
         }
 
         private void testBtn_Click(object sender, EventArgs e)
         {
-       
+            ///
         }
 
         private void cloneTab_btn_Click(object sender, EventArgs e)

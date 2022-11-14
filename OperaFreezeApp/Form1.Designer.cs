@@ -42,6 +42,11 @@ namespace OperaFreezeApp
             this.emailTextBox = new System.Windows.Forms.TextBox();
             this.passwordLabel = new System.Windows.Forms.Label();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
+            this.proxy_check = new System.Windows.Forms.CheckBox();
+            this.proxy_server = new System.Windows.Forms.Label();
+            this.server_textbox = new System.Windows.Forms.TextBox();
+            this.port_label = new System.Windows.Forms.Label();
+            this.port_textbox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -79,7 +84,7 @@ namespace OperaFreezeApp
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(223, 274);
+            this.saveButton.Location = new System.Drawing.Point(238, 382);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 3;
@@ -152,11 +157,58 @@ namespace OperaFreezeApp
             this.passwordTextBox.Size = new System.Drawing.Size(160, 23);
             this.passwordTextBox.TabIndex = 10;
             // 
+            // proxy_check
+            // 
+            this.proxy_check.AutoSize = true;
+            this.proxy_check.Location = new System.Drawing.Point(336, 228);
+            this.proxy_check.Name = "proxy_check";
+            this.proxy_check.Size = new System.Drawing.Size(66, 19);
+            this.proxy_check.TabIndex = 11;
+            this.proxy_check.Text = "прокси";
+            this.proxy_check.UseVisualStyleBackColor = true;
+            // 
+            // proxy_server
+            // 
+            this.proxy_server.AutoSize = true;
+            this.proxy_server.Location = new System.Drawing.Point(333, 258);
+            this.proxy_server.Name = "proxy_server";
+            this.proxy_server.Size = new System.Drawing.Size(71, 15);
+            this.proxy_server.TabIndex = 12;
+            this.proxy_server.Text = "Proxy server";
+            // 
+            // server_textbox
+            // 
+            this.server_textbox.Location = new System.Drawing.Point(336, 276);
+            this.server_textbox.Name = "server_textbox";
+            this.server_textbox.Size = new System.Drawing.Size(144, 23);
+            this.server_textbox.TabIndex = 13;
+            // 
+            // port_label
+            // 
+            this.port_label.AutoSize = true;
+            this.port_label.Location = new System.Drawing.Point(333, 313);
+            this.port_label.Name = "port_label";
+            this.port_label.Size = new System.Drawing.Size(29, 15);
+            this.port_label.TabIndex = 14;
+            this.port_label.Text = "port";
+            // 
+            // port_textbox
+            // 
+            this.port_textbox.Location = new System.Drawing.Point(333, 331);
+            this.port_textbox.Name = "port_textbox";
+            this.port_textbox.Size = new System.Drawing.Size(100, 23);
+            this.port_textbox.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 450);
+            this.Controls.Add(this.port_textbox);
+            this.Controls.Add(this.port_label);
+            this.Controls.Add(this.server_textbox);
+            this.Controls.Add(this.proxy_server);
+            this.Controls.Add(this.proxy_check);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.passwordLabel);
             this.Controls.Add(this.emailTextBox);
@@ -191,6 +243,11 @@ namespace OperaFreezeApp
         private System.Windows.Forms.TextBox emailTextBox;
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.TextBox passwordTextBox;
+        private System.Windows.Forms.CheckBox proxy_check;
+        private System.Windows.Forms.Label proxy_server;
+        private System.Windows.Forms.TextBox server_textbox;
+        private System.Windows.Forms.Label port_label;
+        private System.Windows.Forms.TextBox port_textbox;
     }
 }
 
