@@ -38,8 +38,18 @@ namespace OperaFreezeApp
         private void startButton_Click(object sender, EventArgs e)
         {
             Controller = new AppController();
-            Controller.StartApp();
-            Controller.Authorization(Controller.Settings.Email, Controller.Settings.Password);
+            
+            if(Controller.Settings.isLineBetMirror == true)
+            {
+                Controller.StartApp("https://linebet0193.com");
+                Controller.AuthorizationLineBet(Controller.Settings.Email, Controller.Settings.Password);
+            }
+            else
+            {
+                Controller.StartApp("https://1xbit6.com/ru");
+                Controller.Authorization(Controller.Settings.Email, Controller.Settings.Password);
+            }
+           
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -83,12 +93,11 @@ namespace OperaFreezeApp
         //}
         private void freezeLoop_Click(object sender, EventArgs e)
         {
-           
-            Controller.PageFreeze(Index);
+            Controller.PageFreeze(Index, "cpn-btns-group__item");
             Index = Controller.SetIndex();
             timer1.Enabled = true;
             timer1.Start();
-           
+
         }
 
         private void stopFreeze_Click(object sender, EventArgs e)

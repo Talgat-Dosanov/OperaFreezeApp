@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using OpenQA.Selenium;
@@ -28,7 +29,7 @@ namespace OperaFreezeApp
         {
             Settings = GetSettings();
         }
-        public void StartApp()
+        public void StartApp(string url)
         {
             try
                { 
@@ -52,7 +53,12 @@ namespace OperaFreezeApp
                     OperaOptions.AddArgument("ignore-certificate-errors");
                 }
 
-
+                var appDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var userAgentPath = @"user-agent\0.3.2_0.crx";
+                var fingerPrintsPath = @"fingerprints\0.2.0_0.crx";
+                // Extensions Path
+                OperaOptions.AddExtension(Path.Combine(appDir, userAgentPath));
+                OperaOptions.AddExtension(Path.Combine(appDir, fingerPrintsPath));
                 driver = new OperaDriver(Service, OperaOptions);
                 wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
                 driver.Manage().Window.Maximize();
@@ -62,7 +68,7 @@ namespace OperaFreezeApp
 
                 ((IJavaScriptExecutor)driver).ExecuteScript("window.open();");
                 driver.SwitchTo().Window(driver.WindowHandles.Last());
-                driver.Navigate().GoToUrl("https://1xbit6.com/ru");
+                driver.Navigate().GoToUrl(url);
             }
             catch (Exception)
             {
@@ -102,6 +108,27 @@ namespace OperaFreezeApp
             }
            
         }
+        public void AuthorizationLineBet(string email, string password)
+        {
+            // open authorization form
+            var signIn = wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("curLoginForm")));
+            if (ElemCheck(signIn))
+            {
+                signIn.Click();
+            }
+
+            var inputEmail = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("auth_id_email")));
+            CheckInputItem(inputEmail, email);
+
+            var inputPassword = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("auth-form-password")));
+            CheckInputItem(inputPassword, password);
+
+            var submitBtn = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".auth-button.auth-button--block.auth-button--slide-up-hover.auth-button--theme-secondary")));
+            if (ElemCheck(submitBtn))
+            {
+                submitBtn.Click();
+            }
+        }
         public void Authorization (string email, string password)
         {
             // open authorization form
@@ -126,7 +153,7 @@ namespace OperaFreezeApp
             
         }
      
-        public void PageFreeze(int Index)
+        public void PageFreeze(int Index, string btnClass)
         {
             currentTabUrl = driver.Url;
             currentTab = driver.CurrentWindowHandle;
@@ -137,7 +164,7 @@ namespace OperaFreezeApp
                 {
                     driver.SwitchTo().Window(driver.WindowHandles[Index]);
                 }
-                var btnItems = driver.FindElement(By.ClassName("cpn-btns-group__item"));
+                var btnItems = driver.FindElement(By.ClassName(btnClass));
                 var bet = btnItems.FindElement(By.TagName("button"));
                 bet.Click();
                 Thread.Sleep(1000);
