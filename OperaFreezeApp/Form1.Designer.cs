@@ -47,6 +47,9 @@ namespace OperaFreezeApp
             this.server_textbox = new System.Windows.Forms.TextBox();
             this.port_label = new System.Windows.Forms.Label();
             this.port_textbox = new System.Windows.Forms.TextBox();
+            this.bit1x_on = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lineBit_Checkbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -194,16 +197,48 @@ namespace OperaFreezeApp
             // 
             // port_textbox
             // 
-            this.port_textbox.Location = new System.Drawing.Point(333, 331);
+            this.port_textbox.Location = new System.Drawing.Point(336, 331);
             this.port_textbox.Name = "port_textbox";
             this.port_textbox.Size = new System.Drawing.Size(100, 23);
             this.port_textbox.TabIndex = 15;
+            // 
+            // bit1x_on
+            // 
+            this.bit1x_on.AutoSize = true;
+            this.bit1x_on.Location = new System.Drawing.Point(26, 258);
+            this.bit1x_on.Name = "bit1x_on";
+            this.bit1x_on.Size = new System.Drawing.Size(52, 19);
+            this.bit1x_on.TabIndex = 16;
+            this.bit1x_on.Text = "1xbit";
+            this.bit1x_on.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(26, 228);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 15);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Букмейкер";
+            // 
+            // lineBit_Checkbox
+            // 
+            this.lineBit_Checkbox.AutoSize = true;
+            this.lineBit_Checkbox.Location = new System.Drawing.Point(26, 284);
+            this.lineBit_Checkbox.Name = "lineBit_Checkbox";
+            this.lineBit_Checkbox.Size = new System.Drawing.Size(113, 19);
+            this.lineBit_Checkbox.TabIndex = 18;
+            this.lineBit_Checkbox.Text = "linebet0193.com";
+            this.lineBit_Checkbox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 450);
+            this.Controls.Add(this.lineBit_Checkbox);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.bit1x_on);
             this.Controls.Add(this.port_textbox);
             this.Controls.Add(this.port_label);
             this.Controls.Add(this.server_textbox);
@@ -248,6 +283,9 @@ namespace OperaFreezeApp
         private System.Windows.Forms.TextBox server_textbox;
         private System.Windows.Forms.Label port_label;
         private System.Windows.Forms.TextBox port_textbox;
+        private System.Windows.Forms.CheckBox bit1x_on;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox lineBit_Checkbox;
     }
 }
 

@@ -26,6 +26,8 @@ namespace OperaFreezeApp
             proxy_check.Checked = Controller.Settings.Proxy;
             server_textbox.Text = Controller.Settings.ProxyServer;
             port_textbox.Text = Controller.Settings.ProxyPort;
+            bit1x_on.Checked = Controller.Settings.is1xBit;
+            lineBit_Checkbox.Checked = Controller.Settings.isLineBetMirror;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -64,6 +66,8 @@ namespace OperaFreezeApp
                 Controller.Settings.ProxyPort = "";
             }
 
+            Controller.Settings.is1xBit = bit1x_on.Checked;
+            Controller.Settings.isLineBetMirror = lineBit_Checkbox.Checked;
             Controller.Settings.OperaPath = operaBinary;
             Controller.Settings.OperaDriverPath = operaDriverBinary;
             Controller.Settings.Email = email;
@@ -100,5 +104,6 @@ namespace OperaFreezeApp
             }
             operaPathText.Text = openPathTab.FileName;
         }
+
     }
 }

@@ -31,11 +31,7 @@ namespace OperaFreezeApp
         public void StartApp()
         {
             try
-            {
-               
-               
-
-
+               { 
                 Settings = GetSettings();
                 Service = OperaDriverService.CreateDefaultService(Settings.OperaDriverPath, "operadriver.exe");
                 OperaOptions = new OperaOptions
@@ -57,7 +53,6 @@ namespace OperaFreezeApp
                 }
 
 
-
                 driver = new OperaDriver(Service, OperaOptions);
                 wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
                 driver.Manage().Window.Maximize();
@@ -71,7 +66,7 @@ namespace OperaFreezeApp
             }
             catch (Exception)
             {
-
+                
             }
            
 

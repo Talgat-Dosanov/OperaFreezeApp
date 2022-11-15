@@ -15,6 +15,8 @@ namespace OperaFreezeApp.Model
         public string Password { get; set; }
         public bool Proxy { get; set; } = false;
         public string ProxyServer { get; set; }
-        public string ProxyPort { get; set; } 
+        public string ProxyPort { get; set; }
+        public bool is1xBit { get; set; } = true;
+        public bool isLineBetMirror { get; set; } = false;
     }
 }
