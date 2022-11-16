@@ -169,13 +169,20 @@ namespace OperaFreezeApp
                 bet.Click();
                 Thread.Sleep(1000);
                 driver.SwitchTo().Window(driver.WindowHandles.First());
-                var freezeBtn = ParseFreezeBtn(Index);
+                var freezeBtn = ParseBtns(Index)[1];
+
                 freezeBtn.Click();
-                while (CheckStatus(freezeBtn, Index) != "forzen")
+                int attempts = 0;
+                while (CheckStatus(freezeBtn, Index) != "forzen" || attempts > 4)
                 {
                     freezeBtn.Click();
+                    attempts += 1;
                 }
-                
+                if(attempts > 4)
+                {
+                    var discardBtn = ParseBtns(Index)[2];
+                    discardBtn.Click();
+                }
             }
             catch (ElementClickInterceptedException)
             {
@@ -284,7 +291,7 @@ namespace OperaFreezeApp
             return elem1;
         }
 
-        public IWebElement ParseFreezeBtn(int numPage)
+        public IReadOnlyList<IWebElement> ParseBtns(int numPage)
         {
             
             IWebElement root1 = driver.FindElement(By.TagName("discards-main"));
@@ -299,14 +306,13 @@ namespace OperaFreezeApp
             var AllTab = table.FindElements(By.TagName("tr"));
             var activeTab = AllTab[AllTab.Count() - (1 + numPage)];
             var tabBtns = activeTab.FindElement(By.ClassName("actions-cell"));
-            var freezeBtn = tabBtns.FindElements(By.CssSelector("div"));
+            var btnPanel = tabBtns.FindElements(By.CssSelector("div"));
 
-            wait.Until(ExpectedConditions.ElementToBeClickable(freezeBtn[1]));
-            return freezeBtn[1];
+            return btnPanel;
            
         }
 
-
+        
 
 
 

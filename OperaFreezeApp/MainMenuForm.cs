@@ -91,13 +91,18 @@ namespace OperaFreezeApp
         //        freezeLoop.PerformClick();
         //    }
         //}
-        private void freezeLoop_Click(object sender, EventArgs e)
+
+        private async Task FreezePageAsync()
         {
-            Controller.PageFreeze(Index, "cpn-btns-group__item");
+            await Task.Run(() => Controller.PageFreeze(Index, "cpn-btns-group__item"));
+        }
+        private async void freezeLoop_Click(object sender, EventArgs e)
+        {
+
+            Task task = FreezePageAsync();
             Index = Controller.SetIndex();
             timer1.Enabled = true;
             timer1.Start();
-
         }
 
         private void stopFreeze_Click(object sender, EventArgs e)
